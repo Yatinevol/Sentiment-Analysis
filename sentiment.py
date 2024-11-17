@@ -27,8 +27,7 @@ import string
 import re
 import nltk
 import nltk.corpus
-nltk.download("punkt", force =True)
-nltk.download("punkt_tab")
+nltk.download("punkt")
 nltk.download("stopwords")
 nltk.download("wordnet")
 from nltk.stem import WordNetLemmatizer
@@ -113,7 +112,8 @@ dataset.isnull().sum()
 **Filling Missing Values**
 """
 
-dataset.reviewText.fillna(value = "", inplace = True)
+dataset['reviewText'] = dataset['reviewText'].fillna("")
+
 
 """**Concatenate `reviewText` and `summary` Columns**"""
 
@@ -123,7 +123,6 @@ dataset.drop(columns = ["reviewText", "summary"], axis = 1, inplace = True)
 """**Statistic Description of The Dataset**"""
 
 dataset.describe(include = "all")
-dataset.head()
 
 """*From the description above, we know that the ratings given from the customers will have the range of [1, 5] as shown above. Also, the average rating given to musical instruments sold is 4.48. We can also see our new column `reviews` is there to concate both `summary` and `reviewText`.*
 
@@ -221,14 +220,14 @@ dataset["reviews"] = dataset["reviews"].apply(lambda Text: Text_Processing(Text)
 **Overview of The Dataset**
 """
 
-print(dataset.head(n = 10))
+dataset.head(n = 10)
 
 """*With the overview above, we know that for sentiment analysis that we will do, `reviews` is important to our model and we should use this aspect as our feature. By using this feature, we will need to predict what our sentiment will be classified into.*
 
 **About Other Features**
 """
 
-print(dataset.describe(include = "all"))
+dataset.describe(include = "all")
 
 """*Now, we will go back to statistic description of our dataset. Intuitively, the other features from our dataset does not really have any impact in determining our sentiment later. We might use the `helpful` part in our model, but as we can see from the description above, the top values of it is [0,0], which means that most users do not really take their votes in it. Because of it, we can also decide that we don't really need it in our model.*
 
@@ -311,6 +310,7 @@ def Gram_Analysis(Corpus, Gram, N):
   Vectorizer = CountVectorizer(stop_words=stop_words_list, ngram_range=(Gram,Gram))
   # Vectorizer
   # Vectorizer = CountVectorizer(stop_words = Stopwords)
+
 
   # N-Grams Matrix
   ngrams = Vectorizer.fit_transform(Corpus)
