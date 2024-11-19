@@ -82,7 +82,7 @@ dataset.isnull().sum()
 **Filling Missing Values**
 """
 
-dataset['reviewText'] = dataset['reviewText'].fillna("")
+dataset['reviewText'] = dataset['reviewText'].fillna("").astype(str)
 
 
 """**Concatenate `reviewText` and `summary` Columns**"""
@@ -138,6 +138,9 @@ plt.show()
 """
 
 def Text_Cleaning(Text):
+  if not isinstance(Text, str):
+    return ""
+
   # Lowercase the texts
   Text = Text.lower()
 
