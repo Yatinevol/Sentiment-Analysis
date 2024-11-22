@@ -6,11 +6,13 @@ import nltk
 from string import punctuation
 import re
 from nltk.corpus import stopwords
+from dotenv import load_dotenv
+import os
 
 nltk.download('stopwords')
 
 set(stopwords.words('english'))
-
+load_dotenv()
 app = Flask(__name__)
 
 @app.route('/')
@@ -39,5 +41,9 @@ def my_form_post():
     return render_template('form.html', final=compound, text1=text_final,text2=dd['pos'],text5=dd['neg'],text4=compound,text3=dd['neu'])
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 3000))  # Default to 5000 if PORT is not set
-    app.run(debug=False, host="0.0.0.0", port=port)
+    app.run(
+        debug=os.getenv("FLASK_DEBUG", "False") == "True",
+        host=os.getenv("FLASK_HOST", "127.0.0.1"),
+        port=int(os.getenv("FLASK_PORT", "5002")),
+        threaded=True,
+    )
