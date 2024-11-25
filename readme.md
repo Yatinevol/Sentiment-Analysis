@@ -1,3 +1,6 @@
+# DEPLOY:
+# URL
+https://sentimentanalysis-f6kz.onrender.com
 # -*- coding: utf-8 -*-
 """Sentiment Analysis.ipynb
 
